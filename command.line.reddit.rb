@@ -94,11 +94,19 @@ while true
     end
   end
 
-  puts "id".center(6, " ") + "  " + "votes".center(longest_votes_diff, " ") + "  " + "story".center(60, " ")
-  puts ("-"*6).center(6, " ") + '  ' +  ("-"*(longest_votes_diff + 1)).center(longest_votes_diff + 1, ' ') + '  ' + ('-'*60).center(60, ' ')
+  puts "id".ljust(2, " ") + "  " + "votes".center(longest_votes_diff, " ") + "  " + "story".center(60, " ")
+  puts ("-"*2).ljust(2, " ") + '  ' +  ("-"*(longest_votes_diff + 1)).center(longest_votes_diff + 1, ' ') + '  ' + ('-'*60).center(60, ' ')
+  
+  i = 1
   Post::POSTS.each do |post|
-    puts post.id.blue + '  ^'.green + post.votes_diff.to_s.ljust(longest_votes_diff, " ").green + '  ' + post.title[0..60].black
+    if i < 10
+      formatted_i = " " + i.to_s
+    else
+      formatted_i = i
+    end
+    puts "#{formatted_i}".blue + '  ^'.green + post.votes_diff.to_s.ljust(longest_votes_diff, " ").green + '  ' + post.title[0..60].black
     visible_posts << post.id
+    i += 1
   end
   puts ""
   print "Enter a command ('help' for options): "
@@ -112,11 +120,14 @@ while true
   elsif path == 'subs'
     puts "Loading top subreddits..."
     list_top_subreddits
-  elsif visible_posts.include?(path)
-    Post.launch_story(path)
-  elsif path[0].to_i.to_s == path[0]
+  elsif (visible_posts.length < path.to_i || path.to_i == 0) && path.to_i.to_s == path
     puts "I don't recognize that story id. Please try again."
     sleep(1)
+  elsif visible_posts.length >= path.to_i && path.to_i.to_s == path
+    Post.launch_story(visible_posts[path.to_i - 1])
+  # elsif path[0].to_i.to_s == path[0]
+  #   puts "I don't recognize that story id. Please try again."
+  #   sleep(1)
   else
     Post.clear_posts
     puts "Loading stories..."
