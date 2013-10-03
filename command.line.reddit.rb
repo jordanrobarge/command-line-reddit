@@ -84,6 +84,8 @@ while true
     end
   end
 
+  puts "id".center(6, " ") + "  " + "votes".center(longest_votes_diff, " ") + "  " + "story".center(60, " ")
+  puts ("-"*6).center(6, " ") + '  ' +  ("-"*(longest_votes_diff + 1)).center(longest_votes_diff + 1, ' ') + '  ' + ('-'*60).center(60, ' ')
   Post::POSTS.each do |post|
     puts post.id.blue + '  ^'.green + post.votes_diff.to_s.ljust(longest_votes_diff, " ").green + '  ' + post.title[0..60].black
     visible_posts << post.id
