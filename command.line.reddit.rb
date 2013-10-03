@@ -4,6 +4,9 @@ require 'pry'
 require 'awesome_print'
 require 'colorize'
 
+system("clear")
+puts("Loading...")
+
 if ARGV.first
   if ARGV.first.include?("r/")
     reddit_hash = JSON.parse(RestClient.get('http://reddit.com/' + ARGV.first + '.json'))
@@ -68,7 +71,7 @@ while true
     visible_posts << post.id
   end
   puts ""
-  print "Enter a story id, or type 'exit' to quit: "
+  print "Enter a story id, the name of a subreddit, or type 'exit' to quit: "
   path = $stdin.gets.chomp
 
   if path == 'exit' || path == ''
@@ -81,7 +84,11 @@ while true
   else
     Post.clear_posts
     puts "Loading..."
-    reddit_hash = JSON.parse(RestClient.get('http://reddit.com/r/' + path + '.json'))
+    if path == 'main'
+      reddit_hash = JSON.parse(RestClient.get('http://reddit.com/.json'))
+    else
+      reddit_hash = JSON.parse(RestClient.get('http://reddit.com/r/' + path + '.json'))
+    end
     reddit_hash["data"]["children"].each do |post|
       unless post["data"]["over_18"] == true
         make_posts(post)
