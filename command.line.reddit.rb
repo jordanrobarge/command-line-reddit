@@ -71,7 +71,7 @@ while true
     visible_posts << post.id
   end
   puts ""
-  print "Enter a story id, the name of a subreddit, or type 'exit' to quit: "
+  print "Enter a story id, the name of a subreddit (or 'main'), or type 'exit' to quit: "
   path = $stdin.gets.chomp
 
   if path == 'exit' || path == ''
