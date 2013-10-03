@@ -51,9 +51,8 @@ def list_top_subreddits
   subs = subreddit_hash["data"]["children"]
   puts "Top Subreddits"
   puts "--------------"
-  puts ""
   subs.each do |sub|
-    puts sub["data"]["display_name"].red
+    puts sub["data"]["display_name"].blue
   end
   puts ""
   print "Enter to continue: "
@@ -61,6 +60,17 @@ def list_top_subreddits
 end
 
 def help_me
+  system("clear")
+  puts "You can use the following commands:"
+  puts "-----------------------------------"
+  puts "1. 'main' to view stories on main page"
+  puts "2. '<storyid>' to open story in browser"
+  puts "3. 'subs' to view top subreddits"
+  puts "4. '<subreddit_name>' to view top stories in that subreddit"
+  puts "5. 'exit' to exit"
+  puts ""
+  print "Enter to continue: "
+  gets.chomp
 end
 
 def make_posts(post_hash)
@@ -91,7 +101,7 @@ while true
     visible_posts << post.id
   end
   puts ""
-  print "Enter a story id, the name of a subreddit (or 'main'), or type 'exit' to quit: "
+  print "Enter a command ('help' for options): "
   path = $stdin.gets.chomp
 
   if path == 'exit'
