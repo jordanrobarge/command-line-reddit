@@ -88,7 +88,12 @@ while true
     if path == 'main'
       reddit_hash = JSON.parse(RestClient.get('http://reddit.com/.json'))
     else
-      reddit_hash = JSON.parse(RestClient.get('http://reddit.com/r/' + path + '.json'))
+      begin
+        reddit_hash = JSON.parse(RestClient.get('http://reddit.com/r/' + path + '.json'))
+      rescue
+        puts "I can't seem to find that subreddit. Please try again."
+        sleep (1.2)
+      end
     end
     reddit_hash["data"]["children"].each do |post|
       unless post["data"]["over_18"] == true
