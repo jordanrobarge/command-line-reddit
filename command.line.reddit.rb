@@ -5,7 +5,7 @@ require 'awesome_print'
 require 'colorize'
 
 system("clear")
-puts("Loading...")
+puts("Starting up...")
 
 if ARGV.first
   if ARGV.first.include?("r/")
@@ -45,6 +45,21 @@ class Post
 
 end
 
+def list_top_subreddits
+  subreddit_hash = JSON.parse(RestClient.get('http://www.reddit.com/subreddits.json'))
+  system("clear")
+  subs = subreddit_hash["data"]["children"]
+  subs.each do |sub|
+    puts sub["data"]["display_name"]
+  end
+  puts ""
+  print "Enter to continue: "
+  gets.chomp
+end
+
+def help_me
+end
+
 def make_posts(post_hash)
   data_hash = post_hash["data"]
   Post.new(data_hash["permalink"], data_hash["title"], data_hash["id"], data_hash["ups"], data_hash["downs"])
@@ -77,14 +92,19 @@ while true
   if path == 'exit'
     break
   elsif path == ''
+  elsif path == 'help'
+    help_me
+  elsif path == 'subs'
+    puts "Loading top subreddits..."
+    list_top_subreddits
   elsif visible_posts.include?(path)
     Post.launch_story(path)
   elsif path[0].to_i.to_s == path[0]
     puts "I don't recognize that story id. Please try again."
-    sleep(1.2)
+    sleep(1)
   else
     Post.clear_posts
-    puts "Loading..."
+    puts "Loading stories..."
     if path == 'main'
       reddit_hash = JSON.parse(RestClient.get('http://reddit.com/.json'))
     else
