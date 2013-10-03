@@ -74,8 +74,9 @@ while true
   print "Enter a story id, the name of a subreddit (or 'main'), or type 'exit' to quit: "
   path = $stdin.gets.chomp
 
-  if path == 'exit' || path == ''
+  if path == 'exit'
     break
+  elsif path == ''
   elsif visible_posts.include?(path)
     Post.launch_story(path)
   elsif path[0].to_i.to_s == path[0]
