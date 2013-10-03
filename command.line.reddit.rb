@@ -49,8 +49,11 @@ def list_top_subreddits
   subreddit_hash = JSON.parse(RestClient.get('http://www.reddit.com/subreddits.json'))
   system("clear")
   subs = subreddit_hash["data"]["children"]
+  puts "Top Subreddits"
+  puts "--------------"
+  puts ""
   subs.each do |sub|
-    puts sub["data"]["display_name"]
+    puts sub["data"]["display_name"].red
   end
   puts ""
   print "Enter to continue: "
