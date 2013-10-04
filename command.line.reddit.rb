@@ -38,9 +38,7 @@ class Post
   end
 
   def self.clear_posts
-    while POSTS.size > 0
-      POSTS.pop
-    end
+    POSTS.clear
   end
 
 end
